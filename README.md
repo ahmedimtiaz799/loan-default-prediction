@@ -1,139 +1,162 @@
-Loan Default Prediction 🏦📉
-This project focuses on predicting whether a customer will default on a personal loan using supervised machine learning techniques. The dataset is moderately imbalanced, so class balancing, correlation analysis, feature engineering, and model tuning are applied to improve predictive performance.
+# 🏦 Loan Default Prediction using Machine Learning 📉
 
-📂 Dataset
-Source: Kaggle – Loan Default Prediction Dataset
+This project aims to predict whether a customer will **default on a personal loan** using **supervised machine learning techniques**. The dataset is moderately imbalanced, so techniques like **class balancing**, **EDA**, **feature engineering**, and **model tuning** are applied to enhance performance.
 
-Description: The dataset contains financial and demographic information for 1,000 individuals. The goal is to predict whether a customer will accept a personal loan (1) or not (0). The dataset is slightly imbalanced, with only ~9.6% of customers accepting the loan.
+---
 
-⚙️ Technologies Used
-Python
+## 📂 Dataset
 
-pandas, NumPy
+* **Source**: [Kaggle – Loan Default Prediction Dataset](https://www.kaggle.com/)
+* **Description**:
+  The dataset includes **financial and demographic information** for **1,000 individuals**.
+  The goal is to predict whether a customer will **accept a personal loan**:
 
-seaborn, matplotlib
+  * `0` → No
+  * `1` → Yes
 
-scikit-learn
+  \~9.6% of customers accepted a loan, indicating moderate class imbalance.
 
-XGBoost
+---
 
-Jupyter Notebook
+## ⚙️ Technologies Used
 
-🔍 Project Workflow
-1. Data Loading & Initial Exploration
-Loaded dataset using pandas.read_csv()
+* Python
+* **Libraries**: `pandas`, `NumPy`, `matplotlib`, `seaborn`, `scikit-learn`, `xgboost`
+* Jupyter Notebook
 
-Used .head(), .info(), .shape, and .describe() to inspect the data structure
+---
 
-Dropped irrelevant columns: 'ID', 'ZIP Code'
+## 🔍 Project Workflow
 
-2. Data Cleaning
-Fixed negative values in the Experience column by replacing them with NaN
+### 🧾 1. Data Loading & Initial Exploration
 
-Filled missing values in Experience with the median
+* Loaded data with `pandas.read_csv()`
+* Inspected shape, column names, data types, and summary statistics
+* Dropped irrelevant columns: `ID`, `ZIP Code`
 
-Confirmed no remaining missing or duplicate values
+### 🧹 2. Data Cleaning
 
-3. Exploratory Data Analysis (EDA)
-Target Variable (Personal Loan): Checked class balance using sns.countplot() and value_counts()
+* Replaced **negative values** in `Experience` with `NaN`
+* Imputed missing `Experience` values using **median**
+* Checked for duplicates and confirmed data integrity
 
-Numerical Feature Distributions:
+### 📊 3. Exploratory Data Analysis (EDA)
 
-Income
+#### 🎯 Target Distribution
 
-CCAvg (Credit Card Avg.)
+* Visualized class imbalance using `sns.countplot()` and `value_counts()`
 
-Experience
+#### 📈 Numerical Features
 
-Age
+* Plotted histograms for:
 
-Mortgage
+  * `Income`
+  * `CCAvg` (Credit Card Avg.)
+  * `Experience`
+  * `Age`
+  * `Mortgage`
 
-Categorical Feature Distributions:
+#### 🧮 Categorical Features
 
-Family size
+* Visualized count plots for:
 
-Education level
+  * `Family` (size)
+  * `Education`
+  * `Securities Account`
+  * `CD Account`
+  * `Online`
+  * `CreditCard`
 
-Securities Account
+#### 📦 Boxplots
 
-CD Account
+* Compared distributions of numeric features (`Income`, `CCAvg`, etc.) against loan approval status
 
-Online
+#### 🔗 Correlation Analysis
 
-Credit Card ownership
+* Generated correlation heatmap
+* Found strong positive correlation with:
 
-4. Boxplot Analysis
-Plotted boxplots to compare numerical features (Income, CCAvg, Age, Experience, Mortgage) against the loan approval status to observe differences in distributions.
+  * `CD Account`
+  * `Income`
+  * `CCAvg`
 
-5. Correlation Analysis
-Computed and visualized feature correlations with the target Personal Loan
+---
 
-Found strong positive correlations with:
+## 🤖 Model Training & Evaluation
 
-CD Account
+### 🧠 Features & Target
 
-Income
+* `X`: All features excluding the `Personal Loan` column and identifiers
+* `y`: `Personal Loan` column (target)
 
-CCAvg
+### 🔀 Train/Test Split
 
-6. Model Training
-🎯 Features (X):
-All columns except Personal Loan (target) and dropped identifiers
+* Used `train_test_split` with `stratify=y` to maintain class distribution
 
-🏷️ Target (y):
-Personal Loan
+---
 
-📌 Train/Test Split:
-Used train_test_split with stratification to maintain class ratio.
+### 🌳 Decision Tree Classifier
 
-🔸 Decision Tree Classifier
-class_weight='balanced', max_depth=5
+* Parameters: `class_weight='balanced'`, `max_depth=5`
 
-Performance:
+| Metric    | Loan = 1 (Positive Class) |
+| --------- | ------------------------- |
+| Precision | 0.66                      |
+| Recall    | 0.99                      |
+| F1-Score  | 0.79                      |
+| Accuracy  | 0.95                      |
 
-Precision (1): 0.66
+---
 
-Recall (1): 0.99
+### ⚡ XGBoost Classifier (with Tuning)
 
-F1-Score (1): 0.79
+* Applied grid search and tuning for better generalization
 
-Accuracy: 0.95
+| Metric    | Loan = 1 (Positive Class) |
+| --------- | ------------------------- |
+| Precision | 0.85                      |
+| Recall    | 0.98                      |
+| F1-Score  | 0.91                      |
+| Accuracy  | 0.98                      |
 
-🔸 XGBoost Classifier (with Tuning)
-Applied hyperparameter tuning to improve generalization
+---
 
-Performance:
+## 📈 Evaluation Metrics
 
-Precision (1): 0.85
+* **Classification Report** (Precision, Recall, F1-Score)
+* **Confusion Matrix**
+* **Overall Accuracy**
+* **Macro & Weighted Averages**
 
-Recall (1): 0.98
+---
 
-F1-Score (1): 0.91
+## 📊 Key Visualizations
 
-Accuracy: 0.98
+* `sns.countplot` for class distribution
+* Histograms for numeric features by loan class
+* Count plots for categorical features
+* Boxplots comparing features with loan status
+* Correlation heatmap / barplot
 
-📈 Evaluation Metrics
-Classification Report (Precision, Recall, F1-Score)
+---
 
-Confusion Matrix
+## ✅ Results Summary
 
-Accuracy
+| Model           | F1-Score | Precision | Recall | Accuracy |
+| --------------- | -------- | --------- | ------ | -------- |
+| Decision Tree   | 0.79     | 0.66      | 0.99   | 0.95     |
+| XGBoost (Tuned) | 0.91     | 0.85      | 0.98   | 0.98     |
 
-Macro and Weighted Averages
+---
 
-📊 Visualizations
-Loan distribution: sns.countplot
+## 📌 Conclusion
 
-Histograms for Income, Age, Experience, CCAvg, and Mortgage (by Loan class)
+* **XGBoost** significantly outperforms Decision Tree on this moderately imbalanced dataset.
+* Strong predictors include **Income**, **CD Account**, and **Credit Card Spending (CCAvg)**.
+* The pipeline includes **cleaning, visualization, feature analysis, and hyperparameter tuning**, making the model reliable for loan risk assessment.
 
-Count plots for categorical features (Education, Family, etc.)
 
-Boxplots to compare numeric features against loan approval
 
-Correlation barplot showing the relationship of each feature with the target
 
-✅ Results Summary
-Model	F1-Score (Loan=1)	Precision (Loan=1)	Recall (Loan=1)	Accuracy
-Decision Tree	0.79	0.66	0.99	0.95
-XGBoost (Tuned)	0.91	0.85	0.98	0.98
+
+
